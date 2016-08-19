@@ -399,17 +399,16 @@ class Project(object):
             None,
             get_deps
         )
+
+        for svc_containers in results:
+            if svc_containers is not None:
+                for container in svc_containers:
+                    yield container
+
         if errors:
             raise ProjectError(
                 'Encountered errors while bringing up the project.'
             )
-
-        return [
-            container
-            for svc_containers in results
-            if svc_containers is not None
-            for container in svc_containers
-        ]
 
     def initialize(self):
         self.networks.initialize()
